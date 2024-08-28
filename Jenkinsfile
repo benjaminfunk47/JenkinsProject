@@ -14,14 +14,18 @@ pipeline {
         stage('Benjamin Gambill - Login to Dockerhub'){
           steps{
                 script {
-                    bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                    withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                        bat "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                    }                
                 }
             }
         }
         stage('Benjamin Gambill - Push image to Dockerhub'){
             steps{
                 script {
-                    bat 'docker push bengambill/jenkinsproject:latest'
+                    withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                        bat 'docker push bengambill/jenkinsproject:latest'
+                    }
                 }
             }
         }
