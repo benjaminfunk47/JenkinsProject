@@ -1,3 +1,3 @@
 FROM python:latest
-COPY app.py ./
-CMD [ "python", "./app.py" ]
+COPY BenjaminGambill.py ./
+CMD [ "python", "./BenjaminGambill.py" ]
